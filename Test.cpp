@@ -16,7 +16,7 @@ TEST_CASE("Fraction object initialization; Getters return expected values") {
     CHECK(typeid(a.getDenominator()).name() == typeid(int).name());
 
     // Check that the a's fields are like expected. Also checks the getters
-    CHECK((a.getNumerator() == 1) && (a.getDenominator() == 2));
+    CHECK(((a.getNumerator() == 1) && (a.getDenominator() == 2)));
 
     // Check that a Fraction can't be created if denominator is 0
     CHECK_THROWS(Fraction(1,0));
@@ -25,70 +25,70 @@ TEST_CASE("Fraction object initialization; Getters return expected values") {
 TEST_CASE("Fraction addition test") {
     Fraction a(1, 2), b(1, 4);
     Fraction c = a + b; // 1/2 + 1/4 = 3/4
-    CHECK((c.getNumerator() == 3) && (c.getDenominator() == 4));
+    CHECK(((c.getNumerator() == 3) && (c.getDenominator() == 4)));
     CHECK(__gcd(c.getNumerator(), c.getDenominator()) == 1); // Reduced as possible
 
 
     Fraction d(1, 5);
     float e = 0.4; // Will be converted to 2/5
     Fraction f = d + e; // 1/5 + 2/5 = 4/5
-    CHECK((f.getNumerator() == 4) && (f.getDenominator() == 5));
+    CHECK(((f.getNumerator() == 4) && (f.getDenominator() == 5)));
     CHECK(__gcd(f.getNumerator(), f.getDenominator()) == 1);
 
 
     Fraction g = e + d;
-    CHECK((g.getNumerator() == 4) && (g.getDenominator() == 5));
+    CHECK(((g.getNumerator() == 4) && (g.getDenominator() == 5)));
     CHECK(__gcd(g.getNumerator(), g.getDenominator()) == 1);
 }
 
 TEST_CASE("Fraction subtraction test") {
     Fraction a(1, 2), b(1, 4);
     Fraction c = a - b;
-    CHECK((c.getNumerator() == 1) && (c.getDenominator() == 4));
+    CHECK(((c.getNumerator() == 1) && (c.getDenominator() == 4)));
     CHECK(__gcd(c.getNumerator(), c.getDenominator()) == 1);
     
     Fraction d(4, 5);
     float e = 0.4;
     Fraction f = d - e; // 4/5 - 2/5 = 2/5
-    CHECK((f.getNumerator() == 2) && (f.getDenominator() == 5));
+    CHECK(((f.getNumerator() == 2) && (f.getDenominator() == 5)));
     CHECK(__gcd(f.getNumerator(), f.getDenominator()) == 1);
 
     Fraction g = e - d; // 2/5 - 4/5 = -2/5
-    CHECK((g.getNumerator() == -2) && (g.getDenominator() == 5));
+    CHECK(((g.getNumerator() == -2) && (g.getDenominator() == 5)));
     CHECK(__gcd(g.getNumerator(), g.getDenominator()) == 1);
 }
 
 TEST_CASE("Fraction multiplication test") {
     Fraction a(1, 2), b(1, 4);
     Fraction c = a * b;
-    CHECK((c.getNumerator() == 1) && (c.getDenominator() == 8));
+    CHECK(((c.getNumerator() == 1) && (c.getDenominator() == 8)));
     CHECK(__gcd(c.getNumerator(), c.getDenominator()) == 1);
     
     Fraction d(4, 5);
     float e = 0.4;
     Fraction f = d * e; // 4/5 * 2/5 = 8/25
-    CHECK((f.getNumerator() == 8) && (f.getDenominator() == 25));
+    CHECK(((f.getNumerator() == 8) && (f.getDenominator() == 25)));
     CHECK(__gcd(f.getNumerator(), f.getDenominator()) == 1);
 
     Fraction g = e * d; // 2/5 * 4/5 = 8/25
-    CHECK((g.getNumerator() == 8) && (g.getDenominator() == 25));
+    CHECK(((g.getNumerator() == 8) && (g.getDenominator() == 25)));
     CHECK(__gcd(g.getNumerator(), g.getDenominator()) == 1);
 }
 
 TEST_CASE("Fraction division test") {
     Fraction a(1, 2), b(1, 4);
     Fraction c = a / b; // 1/2 / 1/4 = 1/2 * 4/1 = 4/2
-    CHECK((c.getNumerator() == 4) && (c.getDenominator() == 2));
+    CHECK(((c.getNumerator() == 4) && (c.getDenominator() == 2)));
     CHECK(__gcd(c.getNumerator(), c.getDenominator()) == 1);
     
     Fraction d(4, 5);
     float e = 0.4;
     Fraction f = d - e; // 4/5 / 2/5 = 4/5 * 5/2 = 20 / 10 = 2/1
-    CHECK((f.getNumerator() == 2) && (f.getDenominator() == 1));
+    CHECK(((f.getNumerator() == 2) && (f.getDenominator() == 1)));
     CHECK(__gcd(f.getNumerator(), f.getDenominator()) == 1);
 
     Fraction g = e - d; // 2/5 / 4/5 = 2/5 * 5/4 = 10 / 20 = 1/2
-    CHECK((g.getNumerator() == 1) && (g.getDenominator() == 2));
+    CHECK(((g.getNumerator() == 1) && (g.getDenominator() == 2)));
     CHECK(__gcd(g.getNumerator(), g.getDenominator()) == 1);
 }
 
@@ -219,7 +219,7 @@ TEST_CASE("Output and Input Stream Operators") {
     CHECK(os.str() == "1/2"); // Prints well
     CHECK_THROWS(os << "x");
 
-    istringstream is("5 6");
+    istringstream is("5 6"); // Could also be "5,6" for ex
     istringstream bad_is("7");
 
     // Test operator>>
@@ -229,9 +229,21 @@ TEST_CASE("Output and Input Stream Operators") {
     CHECK_THROWS(bad_is >> b); // Throws cuz the input is one number
 }
 
-TEST_CASE("Rounding") {
+TEST_CASE("Rounding of float numbers during arithmetic operations with Fractions") {
     Fraction a(2, 5);
-    float b = 0.2001; // During the + it'll became 0.200, which is 1/5
+    float b = 0.2001; // During the "+" operation it'll became 0.200, which is 1/5
     Fraction c = a + b; // 2/5 + 1/5 = 3/5
-    CHECK((c.getNumerator() == 3) && (c.getDenominator() == 5));
+    CHECK(((c.getNumerator() == 3) && (c.getDenominator() == 5)));
+
+    b = 0.2001;
+    c = a - b; // 1/5
+    CHECK(((c.getNumerator() == 1) && (c.getDenominator() == 5)));
+
+    b = 0.2001;
+    c = a * b; // 2/25
+    CHECK(((c.getNumerator() == 2) && (c.getDenominator() == 25)));
+
+    b = 0.2001;
+    c = a / b; // 2/1
+    CHECK(((c.getNumerator() == 2) && (c.getDenominator() == 1)));
 }
