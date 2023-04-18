@@ -1,10 +1,17 @@
 #include "Fraction.hpp"
 using namespace std;
 #include <sstream>
+#include <iostream>
+#include <cmath>
 
 // Any function is returning a defultive known value, only for compiling. Will be edited.
 namespace ariel {
     Fraction::Fraction(int numerator, int denominator) : numerator(numerator), denominator(denominator) {}
+
+    Fraction::Fraction(float flt) {
+        this->numerator = static_cast<int>(round(flt * 1000));
+        this->denominator = 1000;
+    }
 
     Fraction operator+(const Fraction &a, const Fraction &b) {
         return Fraction(1,1);

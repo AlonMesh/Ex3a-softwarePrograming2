@@ -13,6 +13,7 @@ namespace ariel {
 
         public:
             Fraction(int numerator, int denominator);
+            Fraction(float flt);
             Fraction() : numerator(0), denominator(1) {};
 
             /* The following functions declare arithmetic operators (+,-,*,/)
