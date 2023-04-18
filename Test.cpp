@@ -8,15 +8,19 @@
 using namespace ariel;
 using namespace std;
 
-TEST_CASE("Fraction object initialization; Getters return expected values") {
+TEST_CASE("Fraction object initialization & Getters return expected values") {
     Fraction a(1, 2);
 
     // Check that the type of numerator and denominator are int
     CHECK(typeid(a.getNumerator()).name() == typeid(int).name());
     CHECK(typeid(a.getDenominator()).name() == typeid(int).name());
 
-    // Check that the a's fields are like expected. Also checks the getters
+    // Check that the int constractor's fields are like expected. Also checks the getters
     CHECK(((a.getNumerator() == 1) && (a.getDenominator() == 2)));
+
+    // Check that the float constractor's fields are like expected
+    Fraction b(0.3333);
+    CHECK(((b.getNumerator() == 333) && (b.getDenominator() == 1000)));
 
     // Check that a Fraction can't be created if denominator is 0
     CHECK_THROWS(Fraction(1,0));
